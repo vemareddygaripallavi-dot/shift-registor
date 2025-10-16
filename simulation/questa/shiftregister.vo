@@ -1,0 +1,305 @@
+// Copyright (C) 2025  Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and any partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, the Altera Quartus Prime License Agreement,
+// the Altera IP License Agreement, or other applicable license
+// agreement, including, without limitation, that your use is for
+// the sole purpose of programming logic devices manufactured by
+// Altera and sold by Altera or its authorized distributors.  Please
+// refer to the Altera Software License Subscription Agreements 
+// on the Quartus Prime software download page.
+
+// VENDOR "Altera"
+// PROGRAM "Quartus Prime"
+// VERSION "Version 24.1std.0 Build 1077 03/04/2025 SC Lite Edition"
+
+// DATE "10/08/2025 15:04:31"
+
+// 
+// Device: Altera 5CGXFC7C7F23C8 Package FBGA484
+// 
+
+// 
+// This Verilog file should be used for Questa Intel FPGA (Verilog) only
+// 
+
+`timescale 1 ps/ 1 ps
+
+module shiftregister (
+	clk,
+	rst,
+	serial_in,
+	serial_out);
+input 	clk;
+input 	rst;
+input 	serial_in;
+output 	serial_out;
+
+// Design Ports Information
+// serial_out	=>  Location: PIN_M22,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// clk	=>  Location: PIN_M16,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// rst	=>  Location: PIN_M18,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// serial_in	=>  Location: PIN_L22,	 I/O Standard: 2.5 V,	 Current Strength: Default
+
+
+wire gnd;
+wire vcc;
+wire unknown;
+
+assign gnd = 1'b0;
+assign vcc = 1'b1;
+assign unknown = 1'bx;
+
+tri1 devclrn;
+tri1 devpor;
+tri1 devoe;
+wire \~QUARTUS_CREATED_GND~I_combout ;
+wire \clk~input_o ;
+wire \clk~inputCLKENA0_outclk ;
+wire \serial_in~input_o ;
+wire \rst~input_o ;
+wire \shift_reg[1]~feeder_combout ;
+wire \shift_reg[2]~feeder_combout ;
+wire \shift_reg[3]~feeder_combout ;
+wire [3:0] shift_reg;
+
+
+// Location: IOOBUF_X89_Y36_N39
+cyclonev_io_obuf \serial_out~output (
+	.i(shift_reg[3]),
+	.oe(vcc),
+	.dynamicterminationcontrol(gnd),
+	.seriesterminationcontrol(16'b0000000000000000),
+	.parallelterminationcontrol(16'b0000000000000000),
+	.devoe(devoe),
+	.o(serial_out),
+	.obar());
+// synopsys translate_off
+defparam \serial_out~output .bus_hold = "false";
+defparam \serial_out~output .open_drain_output = "false";
+defparam \serial_out~output .shift_series_termination_control = "false";
+// synopsys translate_on
+
+// Location: IOIBUF_X89_Y35_N61
+cyclonev_io_ibuf \clk~input (
+	.i(clk),
+	.ibar(gnd),
+	.dynamicterminationcontrol(gnd),
+	.o(\clk~input_o ));
+// synopsys translate_off
+defparam \clk~input .bus_hold = "false";
+defparam \clk~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: CLKCTRL_G9
+cyclonev_clkena \clk~inputCLKENA0 (
+	.inclk(\clk~input_o ),
+	.ena(vcc),
+	.outclk(\clk~inputCLKENA0_outclk ),
+	.enaout());
+// synopsys translate_off
+defparam \clk~inputCLKENA0 .clock_type = "global clock";
+defparam \clk~inputCLKENA0 .disable_mode = "low";
+defparam \clk~inputCLKENA0 .ena_register_mode = "always enabled";
+defparam \clk~inputCLKENA0 .ena_register_power_up = "high";
+defparam \clk~inputCLKENA0 .test_syn = "high";
+// synopsys translate_on
+
+// Location: IOIBUF_X89_Y36_N55
+cyclonev_io_ibuf \serial_in~input (
+	.i(serial_in),
+	.ibar(gnd),
+	.dynamicterminationcontrol(gnd),
+	.o(\serial_in~input_o ));
+// synopsys translate_off
+defparam \serial_in~input .bus_hold = "false";
+defparam \serial_in~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: IOIBUF_X89_Y36_N21
+cyclonev_io_ibuf \rst~input (
+	.i(rst),
+	.ibar(gnd),
+	.dynamicterminationcontrol(gnd),
+	.o(\rst~input_o ));
+// synopsys translate_off
+defparam \rst~input .bus_hold = "false";
+defparam \rst~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: FF_X88_Y36_N58
+dffeas \shift_reg[0] (
+	.clk(\clk~inputCLKENA0_outclk ),
+	.d(gnd),
+	.asdata(\serial_in~input_o ),
+	.clrn(!\rst~input_o ),
+	.aload(gnd),
+	.sclr(gnd),
+	.sload(vcc),
+	.ena(vcc),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(shift_reg[0]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \shift_reg[0] .is_wysiwyg = "true";
+defparam \shift_reg[0] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X88_Y36_N48
+cyclonev_lcell_comb \shift_reg[1]~feeder (
+// Equation(s):
+// \shift_reg[1]~feeder_combout  = ( shift_reg[0] )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!shift_reg[0]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\shift_reg[1]~feeder_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \shift_reg[1]~feeder .extended_lut = "off";
+defparam \shift_reg[1]~feeder .lut_mask = 64'h00000000FFFFFFFF;
+defparam \shift_reg[1]~feeder .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X88_Y36_N50
+dffeas \shift_reg[1] (
+	.clk(\clk~inputCLKENA0_outclk ),
+	.d(\shift_reg[1]~feeder_combout ),
+	.asdata(vcc),
+	.clrn(!\rst~input_o ),
+	.aload(gnd),
+	.sclr(gnd),
+	.sload(gnd),
+	.ena(vcc),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(shift_reg[1]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \shift_reg[1] .is_wysiwyg = "true";
+defparam \shift_reg[1] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X88_Y36_N27
+cyclonev_lcell_comb \shift_reg[2]~feeder (
+// Equation(s):
+// \shift_reg[2]~feeder_combout  = ( shift_reg[1] )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!shift_reg[1]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\shift_reg[2]~feeder_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \shift_reg[2]~feeder .extended_lut = "off";
+defparam \shift_reg[2]~feeder .lut_mask = 64'h00000000FFFFFFFF;
+defparam \shift_reg[2]~feeder .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X88_Y36_N28
+dffeas \shift_reg[2] (
+	.clk(\clk~inputCLKENA0_outclk ),
+	.d(\shift_reg[2]~feeder_combout ),
+	.asdata(vcc),
+	.clrn(!\rst~input_o ),
+	.aload(gnd),
+	.sclr(gnd),
+	.sload(gnd),
+	.ena(vcc),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(shift_reg[2]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \shift_reg[2] .is_wysiwyg = "true";
+defparam \shift_reg[2] .power_up = "low";
+// synopsys translate_on
+
+// Location: LABCELL_X88_Y36_N24
+cyclonev_lcell_comb \shift_reg[3]~feeder (
+// Equation(s):
+// \shift_reg[3]~feeder_combout  = ( shift_reg[2] )
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(!shift_reg[2]),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\shift_reg[3]~feeder_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \shift_reg[3]~feeder .extended_lut = "off";
+defparam \shift_reg[3]~feeder .lut_mask = 64'h00000000FFFFFFFF;
+defparam \shift_reg[3]~feeder .shared_arith = "off";
+// synopsys translate_on
+
+// Location: FF_X88_Y36_N25
+dffeas \shift_reg[3] (
+	.clk(\clk~inputCLKENA0_outclk ),
+	.d(\shift_reg[3]~feeder_combout ),
+	.asdata(vcc),
+	.clrn(!\rst~input_o ),
+	.aload(gnd),
+	.sclr(gnd),
+	.sload(gnd),
+	.ena(vcc),
+	.devclrn(devclrn),
+	.devpor(devpor),
+	.q(shift_reg[3]),
+	.prn(vcc));
+// synopsys translate_off
+defparam \shift_reg[3] .is_wysiwyg = "true";
+defparam \shift_reg[3] .power_up = "low";
+// synopsys translate_on
+
+// Location: MLABCELL_X6_Y32_N0
+cyclonev_lcell_comb \~QUARTUS_CREATED_GND~I (
+// Equation(s):
+
+	.dataa(gnd),
+	.datab(gnd),
+	.datac(gnd),
+	.datad(gnd),
+	.datae(gnd),
+	.dataf(gnd),
+	.datag(gnd),
+	.cin(gnd),
+	.sharein(gnd),
+	.combout(\~QUARTUS_CREATED_GND~I_combout ),
+	.sumout(),
+	.cout(),
+	.shareout());
+// synopsys translate_off
+defparam \~QUARTUS_CREATED_GND~I .extended_lut = "off";
+defparam \~QUARTUS_CREATED_GND~I .lut_mask = 64'h0000000000000000;
+defparam \~QUARTUS_CREATED_GND~I .shared_arith = "off";
+// synopsys translate_on
+
+endmodule

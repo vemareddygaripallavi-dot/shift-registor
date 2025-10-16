@@ -1,0 +1,20 @@
+module shiftregister(
+    input clk,          // Clock input
+    input rst,          // Reset input (active high)
+    input serial_in,    // Serial data input
+    output reg serial_out  // Serial data output
+);
+
+    reg [3:0] shift_reg; // 4-bit shift register
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            shift_reg <= 4'b0000; // Reset the register
+        end else begin
+            shift_reg <= {shift_reg[2:0], serial_in}; // Shift left
+        end
+    end
+
+    assign serial_out = shift_reg[3]; // MSB as output
+
+endmodule
